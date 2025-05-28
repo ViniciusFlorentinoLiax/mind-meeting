@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function AppTable({ products, setOpenModalEdit, onEditClick, onDeleteClick }: { products: Product[], setOpenModalEdit: () => void, onEditClick: (product: Product) => void, onDeleteClick: (id: string) => void; }) {
+export function AppTable({ products, setOpenModalEdit, onClick, setOpenModalDelete }: { products: Product[], setOpenModalEdit: () => void, onClick: (product: Product) => void, setOpenModalDelete: () => void }) {
   return (
     <Table>
       <TableHeader>
@@ -51,7 +51,7 @@ export function AppTable({ products, setOpenModalEdit, onEditClick, onDeleteClic
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-100% flex flex-col gap-1 p-2">
                   <div className="flex flex-row">
-                    <Button onClick={()=> {onEditClick(product), setOpenModalEdit()}} variant="outline" aria-label="Editar">
+                    <Button onClick={()=> {onClick(product), setOpenModalEdit()}} variant="outline" aria-label="Editar">
                       <DropdownMenuLabel>Editar</DropdownMenuLabel>
                       <PencilIcon className="h-4 w-4" />
                     </Button>
@@ -59,9 +59,8 @@ export function AppTable({ products, setOpenModalEdit, onEditClick, onDeleteClic
                   <DropdownMenuSeparator />
 
                   <div className="flex flex-row">
-                    <Button variant="destructive" aria-label="Excluir"  onClick={() => onDeleteClick(product.id)}>
-                      <DropdownMenuLabel>Deletar</DropdownMenuLabel>
-
+                    <Button variant="destructive" aria-label="Excluir" onClick={()=> {onClick(product), setOpenModalDelete()}}>
+                      <DropdownMenuLabel>Excluir</DropdownMenuLabel>
                       <TrashIcon className="h-4 w-4" />
                     </Button>
                   </div>
@@ -71,14 +70,6 @@ export function AppTable({ products, setOpenModalEdit, onEditClick, onDeleteClic
           </TableRow>
         ))}
       </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell className="text-left">Total</TableCell>
-          <TableCell className="text-right" colSpan={4}>
-            R$2.500,00
-          </TableCell>
-        </TableRow>
-      </TableFooter>
     </Table>
   );
 }

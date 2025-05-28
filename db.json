@@ -1,0 +1,39 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Celular",
+      "price": 250,
+      "expirationDate": "2025-12-29",
+      "supplier": "Magazine Luíza"
+    },
+    {
+      "id": "2",
+      "name": "Teclado",
+      "price": 150,
+      "expirationDate": "2025-10-10",
+      "supplier": "Kabum"
+    },
+    {
+      "id": "3",
+      "name": "Mouse",
+      "price": 350,
+      "expirationDate": "2026-02-01",
+      "supplier": "Kabum"
+    },
+    {
+      "id": "",
+      "name": "teste",
+      "supplier": "teste",
+      "expirationDate": "2003-12-29",
+      "price": "01"
+    },
+    {
+      "id": "",
+      "name": "teste111",
+      "supplier": "teste333",
+      "expirationDate": "2003-02-10",
+      "price": "20"
+    }
+  ]
+}

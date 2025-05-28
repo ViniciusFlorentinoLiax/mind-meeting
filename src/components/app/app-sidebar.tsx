@@ -16,17 +16,13 @@ const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
-      title: "Your Application",
+      title: "Sua aplicação",
       url: "#",
       items: [
         {
           title: "Home",
           url: "#",
           isActive: true,
-        },
-        {
-          title: "Routing",
-          url: "#",
         },
       ],
     },

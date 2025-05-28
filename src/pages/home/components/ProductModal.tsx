@@ -12,18 +12,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { Product } from "../types/Product";
+import {
+  addProduct,
+  fetchProducts,
+  updateProduct,
+} from "../services/productServices";
 
 export function ProductModal({
   open,
   close,
-  onSave,
-  onEdit,
   data,
 }: {
   open: boolean;
   close: () => void;
-  onSave: (product: Omit<Product, "id">) => void;
-  onEdit: (product: Omit<Product, "id">, id: string) => void;
   data?: Product;
 }) {
   const [product, setProduct] = useState<Product>({
@@ -34,29 +35,12 @@ export function ProductModal({
     price: 0,
   });
 
-  useEffect(() => {
-    if (data) {
-      setProduct(data);
-    } else {
-      setProduct({
-        id: "",
-        name: "",
-        supplier: "",
-        expirationDate: "",
-        price: 0,
-      });
-    }
-  }, [data]);
-
-  const handleSubmit = () => {
-    data?.id ? onEdit(product, data.id) : onSave(product);
-    setProduct({
-      id: "",
-      name: "",
-      supplier: "",
-      expirationDate: "",
-      price: 0,
-    });
+  const handleSaveProduct = async (newProduct: Omit<Product, "id">) => {
+    data?.id
+      ? await updateProduct(data.id, newProduct)
+      : await addProduct(newProduct);
+    fetchProducts();
+    close();
   };
 
   const handleChange = (field: keyof Product, value: string) => {
@@ -75,7 +59,7 @@ export function ProductModal({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4">
-          <div className="grid grid-cols-3 items-center">
+          <div className="grid grid-cols-3 gap-2 items-center">
             <Label htmlFor="name" className="text-right">
               Nome
             </Label>
@@ -86,7 +70,7 @@ export function ProductModal({
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-3 items-center">
+          <div className="grid grid-cols-3 gap-2 items-center">
             <Label htmlFor="supplier" className="text-right">
               Fornecedor
             </Label>
@@ -97,7 +81,7 @@ export function ProductModal({
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-3 items-center">
+          <div className="grid grid-cols-3 gap-2 items-center">
             <Label htmlFor="expirationDate" className="text-right">
               Data de validade
             </Label>
@@ -109,7 +93,7 @@ export function ProductModal({
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-3 items-center">
+          <div className="grid grid-cols-3 gap-2 items-center">
             <Label htmlFor="price" className="text-right">
               Preço
             </Label>
@@ -129,7 +113,7 @@ export function ProductModal({
               Cancelar
             </Button>
           </DialogClose>
-          <Button type="button" onClick={handleSubmit}>
+          <Button type="button" onClick={() => handleSaveProduct(product)}>
             Salvar produto
           </Button>
         </DialogFooter>

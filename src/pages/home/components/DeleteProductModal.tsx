@@ -8,18 +8,26 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { deleteProduct, fetchProducts } from "../services/productServices";
 
 export function DeleteProductModal({
   open,
   close,
-  onDelete,
   productName,
+  id,
 }: {
   open: boolean;
   close: () => void;
-  onDelete: () => void;
   productName: string;
+  id?: string;
 }) {
+
+  const handleDeleteProduct = async () => {
+    await deleteProduct(id!!);
+    fetchProducts();
+    close();
+  };
+
   return (
     <Dialog open={open} onOpenChange={close}>
       <DialogContent className="sm:max-w-[425px]">
@@ -39,7 +47,7 @@ export function DeleteProductModal({
           <Button
             type="button"
             onClick={() => {
-              onDelete();
+              handleDeleteProduct();
               close();
             }}
             variant="destructive"
