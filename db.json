@@ -15,25 +15,11 @@
       "supplier": "Kabum"
     },
     {
-      "id": "3",
-      "name": "Mouse",
-      "price": 350,
-      "expirationDate": "2026-02-01",
-      "supplier": "Kabum"
-    },
-    {
-      "id": "",
+      "id": "15c73d40-acce-42f7-875c-d7936b57ab1a",
       "name": "teste",
       "supplier": "teste",
-      "expirationDate": "2003-12-29",
-      "price": "01"
-    },
-    {
-      "id": "",
-      "name": "teste111",
-      "supplier": "teste333",
-      "expirationDate": "2003-02-10",
-      "price": "20"
+      "expirationDate": "1212-02-21",
+      "price": "100"
     }
   ]
 }

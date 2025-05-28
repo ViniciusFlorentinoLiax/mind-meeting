@@ -1,5 +1,4 @@
 import { type ReactNode } from "react";
-import "./App.css";
 import { AuthContext } from "./context/AuthContext";
 
 export interface User{

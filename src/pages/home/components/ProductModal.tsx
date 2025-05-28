@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,7 +17,7 @@ import {
   fetchProducts,
   updateProduct,
 } from "../services/productServices";
-
+import { v4 as uuidv4 } from "uuid";
 export function ProductModal({
   open,
   close,
@@ -35,10 +35,22 @@ export function ProductModal({
     price: 0,
   });
 
+  useEffect(() => {
+    if (data) {
+      setProduct(data);
+    }
+  }, [data]);
+
   const handleSaveProduct = async (newProduct: Omit<Product, "id">) => {
-    data?.id
-      ? await updateProduct(data.id, newProduct)
-      : await addProduct(newProduct);
+    if (data?.id) {
+      await updateProduct(data.id, newProduct);
+    } else {
+      const productWithId: Product = {
+        ...newProduct,
+        id: uuidv4(),
+      };
+      await addProduct(productWithId);
+    }
     fetchProducts();
     close();
   };
@@ -48,14 +60,30 @@ export function ProductModal({
   };
 
   return (
-    <Dialog open={open} onOpenChange={close}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        if (!isOpen) {
+          setProduct({
+            id: "",
+            name: "",
+            supplier: "",
+            expirationDate: "",
+            price: 0,
+          });
+          close();
+        }
+      }}
+    >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {data?.id ? "Editar produto" : "Adicionar produto"}
+            {product?.id ? "Editar produto" : "Adicionar produto"}
           </DialogTitle>
           <DialogDescription>
-            Adicione seu produto aqui. Clique em salvar quando terminar.
+            {`${
+              product?.id ? "Edite" : "Adicione"
+            } seu produto aqui. Clique em salvar quando terminar.`}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4">
@@ -99,7 +127,7 @@ export function ProductModal({
             </Label>
             <Input
               id="price"
-              value={product.price}
+              value={product.price || ""}
               type="number"
               min={1}
               onChange={(e) => handleChange("price", e.target.value)}
@@ -114,7 +142,7 @@ export function ProductModal({
             </Button>
           </DialogClose>
           <Button type="button" onClick={() => handleSaveProduct(product)}>
-            Salvar produto
+            Salvar
           </Button>
         </DialogFooter>
       </DialogContent>
